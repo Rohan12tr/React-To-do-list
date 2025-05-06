@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
+function EditTodoForm({ editTask, task ,deleteTodo }) {
+  const [value, setValue] = useState(task.task);
+  const [description, setDescription] = useState(task.description);
 
-function EditTodoForm({editTask , task}) {
-
-const [value,setValue] = useState(task.task)
-
-const handleSubmit = (e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    editTask(value,task.id)
-}
-    
+    if (value.trim() === "" && description.trim() === "") {
+      deleteTodo(task.id);
+    } else {
+      editTask(value, description, task.id);
+    }
+  };
+
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="TodoForm">
+    <form onSubmit={handleSubmit} className="TodoForm">
       <input
         type="text"
         value={value}
@@ -20,12 +22,18 @@ const handleSubmit = (e)=>{
         className="todo-input"
         placeholder="Update task..."
       />
+      <input
+        type="text"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="todo-input description"
+        placeholder="Update description..."
+      />
       <button type="submit" className="todo-btn">
         Update
       </button>
     </form>
-    </div>
-  )
-} 
+  );
+}
 
-export default EditTodoForm
+export default EditTodoForm;

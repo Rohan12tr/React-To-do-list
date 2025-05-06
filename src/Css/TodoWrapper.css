@@ -15,7 +15,7 @@
   
   .todo-input {
     padding: 10px;
-    width: 70%;
+    width: 94%;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
@@ -34,9 +34,10 @@
 }
   
 form.TodoForm {
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: space-between;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
   margin: 10px 0;
   width: 100%;
 }
@@ -48,17 +49,26 @@ form.TodoForm {
 
 .list-todo {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   background: #faebd77d;
   padding: 0 10px;
   margin: 10px 0;
+  border: 1px solid;
 }
 
 .list-icons {
   display: flex;
   column-gap: 10px;
+  margin-bottom: 10px;
 }
+.list-todo p {
+  padding: 0;
+  margin: 5px;
+  padding: 10px 0px;
+}
+
 .list-icons svg:hover{
  cursor: pointer;
 }
@@ -70,10 +80,25 @@ p.completed.task {
   text-decoration: line-through;
   color:red;
 }
+p.completed.description {
+  text-decoration: line-through;
+  color: red;
+}
 
 .edit-icon:hover {
   color: green;
 }
 .delete-icon:hover{
   color:red;
+}
+.list-icons {
+  display: flex;
+  column-gap: 10px;
+  margin-bottom: 10px;
+}
+input.todo-input.inp-error {
+  border-color: red;
+}
+.list-icons button {
+  border: none;
 }
