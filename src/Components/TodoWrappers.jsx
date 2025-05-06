@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoForm from "./TodoForm";
 import "../Css/TodoWrapper.css";
 import EditTodoForm from "./EditTodoForm";
@@ -7,7 +7,19 @@ import Todo from "./Todo";
 function TodoWrappers() {
   const [todos, setTodos] = useState([]);
 
-  // Add todo
+  // Load from localStorage when component mounts
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem("todos"));
+    if (storedTodos) {
+      setTodos(storedTodos);
+    }
+  }, []);
+
+  // Save to localStorage whenever todos change
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   const addTodo = (task, description) => {
     const newTodo = {
       id: Date.now(),
@@ -19,12 +31,10 @@ function TodoWrappers() {
     setTodos([...todos, newTodo]);
   };
 
-  // Delete todo
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  // Toggle complete
   const toggleComplete = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -33,7 +43,6 @@ function TodoWrappers() {
     );
   };
 
-  // Enable edit
   const editTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -42,7 +51,6 @@ function TodoWrappers() {
     );
   };
 
-  // Edit task
   const editTask = (task, description, id) => {
     setTodos(
       todos.map((todo) =>
@@ -59,7 +67,12 @@ function TodoWrappers() {
       <TodoForm addTodo={addTodo} />
       {todos.map((todo) =>
         todo.isEditing ? (
-          <EditTodoForm key={todo.id} deleteTodo={deleteTodo}  editTask={editTask} task={todo} />
+          <EditTodoForm
+            key={todo.id}
+            deleteTodo={deleteTodo}
+            editTask={editTask}
+            task={todo}
+          />
         ) : (
           <Todo
             key={todo.id}
